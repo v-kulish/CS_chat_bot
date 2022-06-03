@@ -35,11 +35,14 @@ and we will prepare the card for you! <br><br>'''
     no_f = """&emsp;•    <b>A filled-out City tax registration form:</b> enclosed you will find the template 
     – please send the form back to customer.service@visionapartments.com<br><br>"""
     no_id_p_check = ''
+    exit_commands = ('quit', 'close', 'pause', 'off', 'exit',
+                     'nothing', 'bye', 'no', 'no, thanks', 'no, thank you')
     def __init__(self, number=''):
         self.provide_your_name()
         self.mail_count = number
         if self.mail_count == '':
-            self.mail_count = int(input('Please provide the number of e-mails to send: '))
+            self.mail_count = int(input('Please provide the number of e-mails to send: ').lower())
+            self.check_exit(self.mail_count)
         while self.mail_count > 0:
             self.get_details()
         print("All e-mails sent")
@@ -61,8 +64,10 @@ and we will prepare the card for you! <br><br>'''
             self.b_num = b_num[0]
         except IndexError:
             print(f"Please check the file booking ({self.mail_count}), it might be an Airbnb reservation. Closing the program now")
-            quit()
-        self.b_num = input(f'Please provide booking number from VMS for the reservation {self.b_num} (optional)')
+            file.Close()
+            raise IndexError
+        self.b_num = input(f'Please provide booking number from VMS for the reservation {self.b_num} (optional)\n ')
+        self.check_exit(b_num.lower())
         if len(self.b_num) < 7:
             self.b_num = b_num[0]
         email_to = re.findall("Guest.+\t(.+.com)", msg)
@@ -75,6 +80,7 @@ and we will prepare the card for you! <br><br>'''
 
     def provide_your_name(self):
         v_name = input('Please, provide your name as at the start of your e-mail (i.e. "Vadym Kulish" -> vkulish): ').lower()
+        self.check_exit(v_name)
         df = pd.read_excel('list_emp.xlsx')
         df = df.set_index('init')
         self.name = df.loc[v_name, 'full_name']
@@ -151,11 +157,13 @@ and we will prepare the card for you! <br><br>'''
 
     def id_payment_check(self, message):
         if_id = input(f'Do we have an ID from {self.guest_name}?(yes/no) ').lower()
+        self.check_exit(if_id)
         if 'yes' not in if_id:
             self.no_id_p_check = self.requested + self.no_id
         if "You have received a virtual credit card" not in message:
             if self.expedia:
                 reply = input(f'Is there a VCC for this Expedia reservation{self.b_num} ?(yes/no) ').lower()
+                self.check_exit(reply)
                 if 'yes' in reply:
                     return
                 if if_id == 'yes':
@@ -219,7 +227,7 @@ and we will prepare the card for you! <br><br>'''
         outlook = win32com.client.Dispatch('outlook.application')
         mail = outlook.CreateItem(0)
         mail.BCC = self.my_address
-        mail.To = self.my_address
+        mail.To = self.client_address
         mail.Subject = 'VISIONAPARTMENTS ' + self.city + " / " + self.b_num + " / Check-in information"
         if self.city != 'Zurich':
             info_attach = self.city + "_arrival_tips.pdf"
@@ -260,3 +268,7 @@ and we will prepare the card for you! <br><br>'''
             ''' + self.signature
         mail.SentOnBehalfOfName = "customer.service@visionapartments.com"
         mail.Send()
+
+    def check_exit(self, reply):
+        if reply in self.exit_commands:
+            raise IndexError
