@@ -1,0 +1,15 @@
+
+List of technicians:
+
+Zurich: assing only team "Technicians Zurich"
+Lucerne, Zug: "Technicians Lucerne"/"Technicians Zug" -> Renee Guentherodt 
+Lausanne: "Technicians Lausanne" -> Ilyesse Kodad
+Vevey: "Technicians Vevey" -> Hugo Silva
+Geneva: "Technicians Geneva" -> Rafael Silva
+Basel: "Technicians Basel" -> Joao Dos Santos
+
+Berlin: "Technicians Berlin" -> Antigone Berlin
+Frankfurt: "Technicians Frankfurt" -> Fabio Rosetto
+
+Vienna: "Technicians Vienna" -> Nida Juni
+

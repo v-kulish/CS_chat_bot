@@ -29,28 +29,30 @@ and we will prepare the card for you! <br><br>'''
     '''
     requested = """<b>Please note that your arrival is only guaranteed if prior
      to check-in, we receive for each guest:<br><br>"""
-    no_id = """&emsp;•    Copy of the ID (*BOTH sides) or Passport:</b> 
+    no_id = """&emsp;•    Copy of the ID (*BOTH sides) or Passport:</b>
     please send it to customer.service@visionapartments.com<br><br>"""
     no_p = "&emsp;•    <b>Payment:</b> you will receive a separate e-mail with you invoice<br><br>"
-    no_f = """&emsp;•    <b>A filled-out City tax registration form:</b> enclosed you will find the template 
+    no_f = """&emsp;•    <b>A filled-out City tax registration form:</b> enclosed you will find the template
     – please send the form back to customer.service@visionapartments.com<br><br>"""
     no_id_p_check = ''
     exit_commands = ('quit', 'close', 'pause', 'off', 'exit',
-                     'nothing', 'bye', 'no', 'no, thanks', 'no, thank you')
+                     'nothing', 'stop')
     def __init__(self, number=''):
         self.provide_your_name()
         self.mail_count = number
         if self.mail_count == '':
             self.mail_count = int(input('Please provide the number of e-mails to send: ').lower())
             self.check_exit(self.mail_count)
+            self.mail_list = [f'{os.getcwd()}\\bookings\{file}' for file in os.listdir('bookings') if file[-4:] == '.msg']
+
         while self.mail_count > 0:
             self.get_details()
         print("All e-mails sent")
 
     def get_details(self):
         outlook = win32com.client.Dispatch("Outlook.Application").GetNamespace("MAPI")
-        old_name = r"C:\CS_chat_bot\bookings\booking " + f'({self.mail_count})' + '.msg'
-        file = outlook.OpenSharedItem(old_name)
+        file_name = self.mail_list[self.mail_count-1]
+        file = outlook.OpenSharedItem(file_name)
         msg = file.Body
         self.check_city(msg)
         c_i = re.findall("Check-in:\t(.+)\t", msg)
@@ -63,14 +65,18 @@ and we will prepare the card for you! <br><br>'''
             b_num = re.findall("Reservation no.+\t([0-9]+)", msg)
             self.b_num = b_num[0]
         except IndexError:
-            print(f"Please check the file booking ({self.mail_count}), it might be an Airbnb reservation. Closing the program now")
-            file.Close()
-            raise IndexError
+            print(f"Please check the file ({file_name}), it might be an Airbnb/Amadeus/etc. reservation.")
+            self.mail_count -= 1
+            return
         self.b_num = input(f'Please provide booking number from VMS for the reservation {self.b_num} (optional)\n ')
-        self.check_exit(b_num.lower())
+        self.check_exit(self.b_num.lower())
+        if self.b_num == 'skip':
+            print(f'Skipping reservation number {b_num[0]}')
+            self.mail_count -= 1
+            return
         if len(self.b_num) < 7:
             self.b_num = b_num[0]
-        email_to = re.findall("Guest.+\t(.+.com)", msg)
+        email_to = re.findall("Guest.+\t(.+@.+) ", msg)
         self.client_address = email_to[0]
         self.expedia = self.expedia_check(msg)
         self.id_payment_check(msg)
@@ -171,7 +177,7 @@ and we will prepare the card for you! <br><br>'''
                 else:
                     self.no_id_p_check += self.no_p
                 print(self.b_num, 'No VCC, please send the invoice with a link')
-            if self.city != 'Basel':
+            elif self.city != 'Basel':
                 if if_id == 'yes':
                     self.no_id_p_check += self.requested + self.no_p
                 else:
@@ -200,24 +206,24 @@ and we will prepare the card for you! <br><br>'''
         T ''' + f'{self.number_local}' + ' I T ' + f'{self.number_foreign}' '''+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span></span></p><p><span style="font-family:Arial,Helvetica,
-        sans-serif"><span style="font-size:10pt"><span style="color:black"><a href="mailto:''' + f'{self.my_address}' + '''" 
+        sans-serif"><span style="font-size:10pt"><span style="color:black"><a href="mailto:''' + f'{self.my_address}' + '''"
         style="color:#0563c1; text-decoration:underline"><strong><span style="font-size:10.0pt">
         <span style="color:#4ebcbd">''' + f'{self.my_address}' + '''</span></span></strong></a></span></span><br />
-        <span style="font-size:10pt"><span style="color:black"><a href="https://www.visionapartments.com/" 
+        <span style="font-size:10pt"><span style="color:black"><a href="https://www.visionapartments.com/"
         style="color:#0563c1; text-decoration:underline"><strong><span style="font-size:10.0pt">
         <span style="color:#4ebcbd">visionapartments.com</span></span></strong></a></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         &nbsp;&nbsp;&nbsp;</span><span style="font-size:10pt"><span style="font-size:10.0pt"><span style="color:black">
         &nbsp; &nbsp; &nbsp;&nbsp;</span></span></span></span></p><p><span style="font-family:Arial,Helvetica,sans-serif">
-        <a href="https://blog.visionapartments.com/"><img src="'''+ files[0] +'''" style="height:25px; 
-        width:25px" /></a>&nbsp<a href="https://www.facebook.com/FurnishedApartmentsForRent"><img src="'''+ files[1] +'''" 
-        style="height:25px; width:25px" /></a>&nbsp<a href="https://instagram.com/visionapartments"><img src="'''+ files[2] +'''" 
-        style="height:25px; width:25px" /></a>&nbsp<a href="https://twitter.com/visionapartment"><img src="'''+ files[3] +'''" 
-        style="height:25px; width:25px" /></a>&nbsp<a href="https://www.linkedin.com/company/visionapartments"><img src="'''+ files[4] +'''" 
+        <a href="https://blog.visionapartments.com/"><img src="'''+ files[0] +'''" style="height:25px;
+        width:25px" /></a>&nbsp<a href="https://www.facebook.com/FurnishedApartmentsForRent"><img src="'''+ files[1] +'''"
+        style="height:25px; width:25px" /></a>&nbsp<a href="https://instagram.com/visionapartments"><img src="'''+ files[2] +'''"
+        style="height:25px; width:25px" /></a>&nbsp<a href="https://twitter.com/visionapartment"><img src="'''+ files[3] +'''"
+        style="height:25px; width:25px" /></a>&nbsp<a href="https://www.linkedin.com/company/visionapartments"><img src="'''+ files[4] +'''"
         style="height:25px; width:25px" /></a></span></p><table cellspacing="0" class="NormaleTabelle" style="border-collapse:collapse">
         <tbody><tr><td style="vertical-align:top"><p><span style="font-family:Arial,Helvetica,sans-serif"><a href="https://visionapartments.com/">
         <img src="'''+ files[5] +'''" style="height:77px; width:600px" /></a>
         </span></p></td></tr></tbody></table><p><span style="font-family:Arial,Helvetica,sans-serif"><span style=
-        "font-size:10pt"><span style="font-size:10.0pt"><span style="color:gray">The controller of your personal data is 
+        "font-size:10pt"><span style="font-size:10.0pt"><span style="color:gray">The controller of your personal data is
         VISIONAPARTMENTS.</span></span> <span style="color:gray"><a href="https://visionapartments.com/en-US/Company/
         Privacy-policy.aspx" style="color:#0563c1; text-decoration:underline"><span style="font-size:10.0pt"><span style=
         "color:#4ebcbd">Read more</span></span></a></span></span></span></p>

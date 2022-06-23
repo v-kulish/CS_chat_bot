@@ -6,10 +6,18 @@
   <component name="ChangeListManager">
     <list default="true" id="70c7284d-51c5-459a-84d0-7f0a508c7cb2" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bookings/booking (1).msg" beforeDir="false" afterPath="$PROJECT_DIR$/bookings/booking (1).msg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bookings/booking (2).msg" beforeDir="false" afterPath="$PROJECT_DIR$/bookings/booking (2).msg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Berlin_TOURISMUSBEITRAG_MELDESCHEIN.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/Berlin_TOURISMUSBEITRAG_MELDESCHEIN.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frankfurt_TOURISMUSBEITRAG_MELDESCHEIN.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/Frankfurt_TOURISMUSBEITRAG_MELDESCHEIN.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/file5.txt" beforeDir="false" afterPath="$PROJECT_DIR$/file5.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/send.py" beforeDir="false" afterPath="$PROJECT_DIR$/send.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/how_to_access.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/id_and_payment_reminder.txt" beforeDir="false" afterPath="$PROJECT_DIR$/templates/id_and_payment_reminder.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/id_reminder.txt" beforeDir="false" afterPath="$PROJECT_DIR$/templates/id_reminder.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/inform_tech.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/inventory_and_tech.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/late_arrival.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/payment_reminder.txt" beforeDir="false" afterPath="$PROJECT_DIR$/templates/payment_reminder.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,13 +46,13 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/CS_chat_bot/main.py"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/CS_chat_bot/main.py&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="Python" type="PythonConfigurationType" factoryName="Python">
       <module name="CS_chat_bot" />

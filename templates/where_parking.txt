@@ -1,0 +1,38 @@
+
+	Zurich:
+Albertstrasse 7: Yes, only 3 outside parking places
+Bellariastrasse 36: Yes, parking garage (almost all occupied by VISION)
+Binzmuhlestr. 46-50: Yes, outside parking located at Binzi 50
+Cramerstrasse 2-12: No parking
+Freyastrasse 8: Yes, only 2 outside parking places
+Gerechtigkeitsgasse 8: No parking
+Hardstrasse 236/238: No parking
+Militarstrasse: Yes, only 4 outside parking places
+Rotachstrasse 33: Yes, only 3 outside parking places
+Waffenplatzstrasse 72: Yes, only 3 outside parking places (1 double)
+Wolframplatz 1: Yes, parking garage
+Zweierstrasse 24: No parking
+
+	Lausanne:
+Chemin des Epinettes 11: Yes, 4 outside + parking garage (REMOTE NEEDED+deposit)
+Rue Caroline 23: No parking
+Route de Vallaire 7: Yes, parking garage
+
+	Vevey:
+Rue des Communaux 20: Yes, parking garage (REMOTE NEEDED+deposit)
+
+	Lucerne:
+Neustadtstrasse 16: Yes, parking garage
+
+	Zug:
+Baarerstrasse 73: Yes, outside parking and garage
+
+	Berlin:
+Otto-Braun-Strasse 67: Yes, parking garage (PARKING MAGNETIC CARD NEEDED+deposit)
+
+	Frankfurt:
+Gutleutstrasse 45: Yes, parking garage
+
+	Vienna:
+Marc-Aurel-Strasse 7: No parking
+
