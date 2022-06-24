@@ -168,7 +168,7 @@ and we will prepare the card for you! <br><br>'''
             self.no_id_p_check = self.requested + self.no_id
         if "You have received a virtual credit card" not in message:
             if self.expedia:
-                reply = input(f'Is there a VCC for this Expedia reservation{self.b_num} ?(yes/no) ').lower()
+                reply = input(f'Is there a VCC for this Expedia reservation {self.b_num} ?(yes/no) ').lower()
                 self.check_exit(reply)
                 if 'yes' in reply:
                     return
