@@ -4,9 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="70c7284d-51c5-459a-84d0-7f0a508c7cb2" name="Changes" comment="">
+    <list default="true" id="70c7284d-51c5-459a-84d0-7f0a508c7cb2" name="Changes" comment="minor fix">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/send.py" beforeDir="false" afterPath="$PROJECT_DIR$/send.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bookings/booking (1).msg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bookings/booking (2).msg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cancel.py" beforeDir="false" afterPath="$PROJECT_DIR$/cancel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/image001.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/image002.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/image003.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/image004.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/image005.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/image006.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.exe" beforeDir="false" afterPath="$PROJECT_DIR$/main.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,6 +84,28 @@
       <option name="presentableId" value="Default" />
       <updated>1654109201743</updated>
     </task>
+    <task id="LOCAL−00001" summary="minor fix">
+      <created>1656052050839</created>
+      <option name="number" value="LOCAL−00001" />
+      <option name="presentableId" value="LOCAL−00001" />
+      <updated>1656052050839</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="minor fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="minor fix" />
   </component>
 </project>
