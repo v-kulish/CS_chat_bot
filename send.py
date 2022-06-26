@@ -64,6 +64,8 @@ and we will prepare the card for you! <br><br>'''
         try:
             b_num = re.findall("Reservation no.+\t([0-9]+)", msg)
             self.b_num = b_num[0]
+            email_to = re.findall("Guest.+\t(.+@.+) ", msg)
+            self.client_address = email_to[0]
         except IndexError:
             print(f"Please check the file ({file_name}), it might be an Airbnb/Amadeus/etc. reservation.")
             self.mail_count -= 1
@@ -76,8 +78,6 @@ and we will prepare the card for you! <br><br>'''
             return
         if len(self.b_num) < 7:
             self.b_num = b_num[0]
-        email_to = re.findall("Guest.+\t(.+@.+) ", msg)
-        self.client_address = email_to[0]
         self.expedia = self.expedia_check(msg)
         self.id_payment_check(msg)
         self.send_email()
