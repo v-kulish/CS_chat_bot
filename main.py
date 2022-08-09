@@ -78,7 +78,7 @@ class CsBot:
          -> tell the program that you want to send ci infos and follow the instructions.\n'''
         print(self.guide)
 
-        will_help = input(f"So, {self.name}, what can I help you with?\n>>> ")
+        will_help = input(f"So, {self.name}, what can I help you with?\n>>>")
 
         if will_help.lower() in self.negative_responses:
             print("Ok, start the program again if you need help!")
@@ -115,7 +115,7 @@ class CsBot:
                     try:
                         return self.send_ci_info_intent()
                     except:
-                        return input('''Looks like something went wrong (or you have stopped the script). Please try again or use a different command.\n>>> ''')
+                        return input('''Looks like something went wrong (or you have stopped the script). Please try again or use a different command.\n>>>''')
                 if found_match and key == 'early_ci_tomorrow':
                     try:
                         if found_match.groups()[0] == 'no':
@@ -137,7 +137,7 @@ class CsBot:
                     return self.load_template(key)
 
 
-        return input(f'I didn\'t understand you, {self.name}. Could you rephrase your command?\n>>> ')
+        return input(f'I didn\'t understand you, {self.name}. Could you rephrase your command?\n ')
 
     def luggage_storage_intent(self, city=''):
 
@@ -146,12 +146,12 @@ class CsBot:
             text = f.read()
             print(text)
             f.close()
-            return input(f'Can I help you with any other question, {self.name}?\n>>> ')
+            return input(f'Can I help you with any other question, {self.name}?\n>>>')
         f = open(r'templates\no_luggage.txt', 'r')
         text = f.read()
         print(text)
         f.close()
-        return input(f'Can I help you with any other question, {self.name}?\n>>> ')
+        return input(f'Can I help you with any other question, {self.name}?\n>>>')
 
     def load_template(self, key):
         file_loc = r'templates\\' + f'{key}.txt'
@@ -159,7 +159,7 @@ class CsBot:
         text = f.read()
         print(text)
         f.close()
-        return input(f'Can I help you with any other question, {self.name}?\n>>> ')
+        return input(f'Can I help you with any other question, {self.name}?\n>>>')
 
     def parking_intent(self, available=True):
         if available:
@@ -167,23 +167,23 @@ class CsBot:
             text = f.read()
             print(text)
             f.close()
-            return input(f'Can I help you with any other question, {self.name}?\n>>> ')
+            return input(f'Can I help you with any other question, {self.name}?\n>>>')
         f = open(r'templates\no_parking.txt', 'r')
         text = f.read()
         print(text)
         f.close()
-        return input(f'Can I help you with any other question, {self.name}?\n>>> ')
+        return input(f'Can I help you with any other question, {self.name}?\n>>>')
 
     def send_ci_info_intent(self, mail_number=''):
         if mail_number == '':
             send_mails = SendMail()
         else:
             send_mails = SendMail(int(mail_number))
-        return input(f'Can I help you with any other question, {self.name}?\n>>> ')
+        return input(f'Can I help you with any other question, {self.name}?\n>>>')
 
     def cancellations(self):
         cancellations = Cancellations()
-        return input(f'Can I help you with any other question, {self.name}?\n>>> ')
+        return input(f'Can I help you with any other question, {self.name}?\n>>>')
 
 
     def early_ci_now(self, possible=True):
@@ -192,12 +192,12 @@ class CsBot:
             text = f.read()
             print(text)
             f.close()
-            return input(f'Can I help you with any other question, {self.name}?\n>>> ')
+            return input(f'Can I help you with any other question, {self.name}?\n>>>')
         f = open(r'templates\early_ci_not.txt', 'r')
         text = f.read()
         print(text)
         f.close()
-        return input(f'Can I help you with any other question, {self.name}?\n>>> ')
+        return input(f'Can I help you with any other question, {self.name}?\n>>>')
 
 
     def late_co_now(self, possible=True):
@@ -206,12 +206,12 @@ class CsBot:
             text = f.read()
             print(text)
             f.close()
-            return input(f'Can I help you with any other question, {self.name}?\n>>> ')
+            return input(f'Can I help you with any other question, {self.name}?\n>>>')
         f = open(r'templates\late_co_not.txt', 'r')
         text = f.read()
         print(text)
         f.close()
-        return input(f'Can I help you with any other question, {self.name}?\n>>> ')
+        return input(f'Can I help you with any other question, {self.name}?\n>>>')
 
 
 chat = CsBot()

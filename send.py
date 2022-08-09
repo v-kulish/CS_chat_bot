@@ -8,6 +8,7 @@ import openpyxl
 
 class SendMail:
     client_address = ''
+    bookings_names = []
     my_address = ''
     expedia = False
     city = ''
@@ -48,13 +49,31 @@ and we will prepare the card for you! <br><br>'''
         while self.mail_count > 0:
             self.get_details()
         print("All e-mails sent")
+        self.change_file_names()
 
-    def get_details(self):
-        outlook = win32com.client.Dispatch("Outlook.Application").GetNamespace("MAPI")
-        file_name = self.mail_list[self.mail_count-1]
-        file = outlook.OpenSharedItem(file_name)
-        msg = file.Body
-        self.check_city(msg)
+    def change_file_names(self):
+        for name, bnum in self.bookings_names:
+            new_name = r'C:\CS_chat_bot\bookings\BOOKING - ' + f'{bnum} Confirmation.msg'
+            os.rename(name, new_name)
+
+    def details_forwarded(self, msg):
+        c_i = re.findall("Check-in:.*\s*(.+)\n", msg)
+        self.c_i = c_i[0].strip()
+        c_o = re.findall("Check-Out:.*\s*(.+)\n", msg)
+        self.c_o = c_o[0].strip()
+        guest_name = re.findall("Guest name:.*\s*(.+)\n", msg)
+        self.guest_name = guest_name[0].strip()
+        try:
+            b_num = re.findall("Reservation no:.*\s*([0-9]+)\s", msg)
+            self.b_num = b_num[0].strip()
+            email_to = re.findall("Guest email:.*\s*(\S+@\S+)\s*<mailto", msg)
+            self.client_address = email_to[0].strip()
+        except IndexError:
+            print(f"Please check the file ({self.latest_file}), it might be an Airbnb/Amadeus/etc. reservation.")
+            self.mail_count -= 1
+            return
+
+    def details_no_forwarded(self, msg):
         c_i = re.findall("Check-in:\t(.+)\t", msg)
         self.c_i = c_i[0]
         c_o = re.findall("Check-Out: \t(.+)\t", msg)
@@ -67,21 +86,61 @@ and we will prepare the card for you! <br><br>'''
             email_to = re.findall("Guest.+\t(.+@.+) ", msg)
             self.client_address = email_to[0]
         except IndexError:
-            print(f"Please check the file ({file_name}), it might be an Airbnb/Amadeus/etc. reservation.")
+            print(f"Please check the file ({self.latest_file}), it might be an Airbnb/Amadeus/etc. reservation.")
             self.mail_count -= 1
-            return
-        self.b_num = input(f'Please provide booking number from VMS for the reservation {self.b_num} (optional)\n ')
-        self.check_exit(self.b_num.lower())
-        if self.b_num == 'skip':
-            print(f'Skipping reservation number {b_num[0]}')
-            self.mail_count -= 1
-            return
-        if len(self.b_num) < 7:
+            raise IndexError
+
+    def details_siteminder(self, msg):
+        c_i = re.findall("Check In Date:\s*(.+)\s*", msg)
+        self.c_i = c_i[0].strip()
+        c_o = re.findall("Check Out Date:\s*(.+)\s*", msg)
+        self.c_o = c_o[0].strip()
+        guest_name = re.findall("New Reservation\s*(.+)\s*", msg)
+        self.guest_name = guest_name[0].strip()
+        print(self.c_i, self.c_o, self.guest_name)
+        try:
+            b_num = re.findall("Booking Confirmation Id:\s*([0-9]+)", msg)
             self.b_num = b_num[0]
+            email_to = re.findall("Booker Email:\s*(.+@.+)\s*(?:<mailto)?", msg)
+            self.client_address = email_to[0]
+            print(self.b_num, self.client_address)
+        except IndexError:
+            print(f"Please check the file ({self.latest_file}), it might be an Airbnb/Amadeus/etc. reservation.")
+            self.mail_count -= 1
+            raise IndexError
+
+    def get_details(self):
+        outlook = win32com.client.Dispatch("Outlook.Application").GetNamespace("MAPI")
+        file_name = self.mail_list[self.mail_count-1]
+        file = outlook.OpenSharedItem(file_name)
+        self.latest_file = file_name
+        msg = file.Body
+        current_count = self.mail_count
+        self.check_city(msg)
+        print(self.city)
+        try:
+            if "From: MAGARENTAL" in msg:
+                self.details_forwarded(msg)
+            elif "support@siteminder.com" in msg:
+                self.details_siteminder(msg)
+            else:
+                self.details_no_forwarded(msg)
+        except:
+            return
+
+        b_num = input(f'Please provide booking number from VMS for the reservation {self.b_num} (optional)\n ')
+        self.check_exit(b_num.lower())
+        if b_num == 'skip':
+            print(f'Skipping reservation number {self.b_num}')
+            self.mail_count -= 1
+            return
+        if len(b_num) > 6:
+            self.b_num = b_num
         self.expedia = self.expedia_check(msg)
         self.id_payment_check(msg)
         self.send_email()
         print(f"Check-in info for booking number {self.b_num} sent")
+        self.bookings_names.append((file_name, self.b_num))
         self.mail_count -= 1
 
     def provide_your_name(self):
@@ -152,6 +211,11 @@ and we will prepare the card for you! <br><br>'''
             self.p_num = "+41 44 248 34 34"
             self.card = ''
 
+        elif "support@siteminder" and 'Vision Nauenstrasse 55' in message:
+            self.city = "Basel"
+            self.p_num = "+41 44 248 34 34"
+            self.card = ''
+
         else:
             print("Cannot find the city. Try again.")
             raise IndexError
@@ -166,7 +230,7 @@ and we will prepare the card for you! <br><br>'''
         self.check_exit(if_id)
         if 'yes' not in if_id:
             self.no_id_p_check = self.requested + self.no_id
-        if "You have received a virtual credit card" not in message:
+        if "received a virtual credit card" not in message:
             if self.expedia:
                 reply = input(f'Is there a VCC for this Expedia reservation {self.b_num} ?(yes/no) ').lower()
                 self.check_exit(reply)
@@ -277,4 +341,5 @@ and we will prepare the card for you! <br><br>'''
 
     def check_exit(self, reply):
         if reply in self.exit_commands:
+            self.change_file_names()
             raise IndexError

@@ -14,10 +14,13 @@ class Cancellations:
         self.get_current_list()
         self.check_folder(folder_to_check)
         qst_if_check = input("\nDo you want to check the other folder, too? (Y/N)\n>>> ").lower()
+        while 'y' not in qst_if_check and 'n' not in qst_if_check :
+            qst_if_check = input("Please answer 'Y' or 'N'\n>>>").lower()
         if 'y' in qst_if_check:
             choose_folder = '2' if choose_folder == '4' else '4'
             folder_to_check = self.folder_choice[choose_folder]
             self.check_folder(folder_to_check)
+
 
     def get_current_list(self):
 
